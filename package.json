@@ -1,0 +1,37 @@
+{
+  "name": "promptform",
+  "version": "1.0.0",
+  "description": "Run files through the OpenAI completions API in bulk",
+  "main": "src/index.js",
+  "bin": {
+    "promptform": "src/index.js"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonstitt/promptform.git"
+  },
+  "keywords": [
+    "openai",
+    "gpt",
+    "gpt3",
+    "gpt3.5",
+    "gpt4",
+    "ai",
+    "generative",
+    "codegen",
+    "text",
+    "utility"
+  ],
+  "author": "Jason Stitt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jasonstitt/promptform/issues"
+  },
+  "homepage": "https://github.com/jasonstitt/promptform#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
