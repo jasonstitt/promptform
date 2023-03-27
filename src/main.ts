@@ -37,18 +37,29 @@ program
       const configuration = new Configuration({ apiKey: token })
       const openai = new OpenAIApi(configuration)
       const extension = opts.extension || ''
-      await bluebird.map(files, async (file: string) => {
-        const filePath = path.resolve(basedir, file)
-        const textInput = await fs.readFile(filePath, 'utf-8')
-        const textOutput = await runCompletionWithBackoff(openai, `${opts.prompt}\n${textInput}`)
-        const outputFilename = path.resolve(opts.outputDir || basedir, file) + extension
-        if (opts.outputDir) {
-          const outputDirPath = path.dirname(outputFilename)
-          await mkdirp(outputDirPath)
-        }
-        await fs.writeFile(outputFilename, textOutput)
-        console.error(`${outputFilename}`)
-      }, { concurrency: Number(opts.concurrency) })
+      await bluebird.map(
+        files,
+        async (file: string) => {
+          const filePath = path.resolve(basedir, file)
+          const textInput = await fs.readFile(filePath, 'utf-8')
+          const textOutput = await runCompletionWithBackoff(
+            openai,
+            `${opts.prompt}\n${textInput}`,
+            opts.model,
+            opts.maxTokens,
+            opts.temperature
+          )
+          const outputFilename =
+            path.resolve(opts.outputDir || basedir, file) + extension
+          if (opts.outputDir) {
+            const outputDirPath = path.dirname(outputFilename)
+            await mkdirp(outputDirPath)
+          }
+          await fs.writeFile(outputFilename, textOutput)
+          console.error(`${outputFilename}`)
+        },
+        { concurrency: Number(opts.concurrency) }
+      )
     } catch (error: any) {
       let errorText = error.stack
       if (error instanceof UserError) {
@@ -57,7 +68,9 @@ program
       } else if (error.response) {
         errorText = JSON.stringify(error.response.data, null, 2)
       }
-      console.error(`There was an unexpected error (it crashed)\n\nThe details are:\n${errorText}`)
+      console.error(
+        `There was an unexpected error (it crashed)\n\nThe details are:\n${errorText}`
+      )
       process.exit(1)
     }
   })

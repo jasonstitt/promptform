@@ -2,10 +2,18 @@ import * as commander from 'commander';
 
 export const program = new commander.Command();
 
-function parseNumber(value: string): number {
+function parsePositiveInt(value: string): number {
   const parsedValue = parseInt(value, 10);
   if (isNaN(parsedValue) || parsedValue <= 0) {
-    throw new commander.InvalidArgumentError('Concurrency must be a positive number.');
+    throw new commander.InvalidArgumentError('must be a positive integer');
+  }
+  return parsedValue;
+}
+
+function parsePositiveFloat(value: string): number {
+  const parsedValue = parseFloat(value);
+  if (isNaN(parsedValue) || parsedValue <= 0) {
+    throw new commander.InvalidArgumentError('must be a positive float');
   }
   return parsedValue;
 }
@@ -20,5 +28,8 @@ program
   .option('--in-place', 'whether to replace file contents, incompatible with extension')
   .option('-d, --output-dir <dir>', 'a directory in which to output files in the same structure as the input tree')
   .option('-t, --token-file <path>', 'path to a file containing the OpenAI API token')
-  .option('-n, --concurrency <number>', 'number of concurrent tasks to run (default 5)', parseNumber, 5)
+  .option('-n, --concurrency <number>', 'number of concurrent tasks to run (default 5)', parsePositiveInt, 5)
+  .option('-m, --model <model>', 'model to use for completion (default: gpt-3.5-turbo)', 'gpt-3.5-turbo')
+  .option('--temperature <temperature>', 'temperature to use for completion (default: 1)', parsePositiveFloat, 1.0)
+  .option('--max-tokens <maxTokens>', 'maximum number of total input + output tokens (default: 4097)', parsePositiveInt, 4097)
   .showHelpAfterError()
