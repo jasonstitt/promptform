@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import bluebird from 'bluebird'
+import { mkdirp } from 'mkdirp'
 import { Configuration, OpenAIApi } from 'openai'
 import { program } from './arguments'
 import { walkFiles } from './walk'
@@ -22,7 +23,11 @@ program
         const filePath = path.resolve(basedir, file)
         const textInput = fs.readFileSync(filePath, 'utf-8')
         const textOutput = await runCompletionWithBackoff(openai, `${opts.prompt}\n${textInput}`)
-        const outputFilename = filePath + '.out'
+        const outputFilename = path.resolve(opts.outputDir || basedir, file) + '.out'
+        if (opts.outputDir) {
+          const outputDirPath = path.dirname(outputFilename)
+          await mkdirp(outputDirPath)
+        }
         fs.writeFileSync(outputFilename, textOutput)
         console.error(`${outputFilename}`)
       }, { concurrency: Number(opts.concurrency) })

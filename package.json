@@ -39,6 +39,7 @@
     "bluebird": "^3.7.2",
     "commander": "^10.0.0",
     "minimatch": "^7.4.3",
+    "mkdirp": "^2.1.6",
     "openai": "^3.2.1",
     "ts-node": "^10.9.1"
   },
