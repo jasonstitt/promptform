@@ -1,0 +1,17 @@
+{
+  "extends": "ts-node/node16/tsconfig.json",
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
+  "compilerOptions": {
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "dist",
+    "strict": true,
+    "target": "es2020",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
+  }
+}
