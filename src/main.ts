@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import bluebird from 'bluebird'
 import { Configuration, OpenAIApi } from 'openai'
 import { program } from './arguments'
 import { walkFiles } from './walk'
@@ -17,13 +18,14 @@ program
       }
       const configuration = new Configuration({ apiKey: token })
       const openai = new OpenAIApi(configuration)
-      for (const file of files) {
+      await bluebird.map(files, async (file: string) => {
         const filePath = path.resolve(basedir, file)
         const textInput = fs.readFileSync(filePath, 'utf-8')
         const textOutput = await runCompletionWithBackoff(openai, `${opts.prompt}\n${textInput}`)
         const outputFilename = filePath + '.out'
         fs.writeFileSync(outputFilename, textOutput)
-      }
+        console.error(`${outputFilename}`)
+      }, { concurrency: Number(opts.concurrency) })
     } catch (error: any) {
       let errorText = error.stack
       if (error.response) {
