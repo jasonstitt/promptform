@@ -32,6 +32,12 @@
   },
   "homepage": "https://github.com/jasonstitt/promptform#readme",
   "dependencies": {
+    "commander": "^10.0.0",
+    "minimatch": "^7.4.3",
+    "openai": "^3.2.1",
     "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "standard": "^17.0.0"
   }
 }

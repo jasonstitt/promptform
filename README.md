@@ -45,13 +45,13 @@ promptform --help
 Summarize all text files:
 
 ```bash
-promptform --token-file ~/.openai-token --include '*.txt' --prompt 'Summarize this text:' --extension '.summary.txt'
+promptform --token-file ~/.openai-token --include '**/*.txt' --prompt 'Summarize this text:' --extension '.summary.txt'
 ```
 
 Generate unit tests:
 
 ```bash
-promptform --token-file ~/.openai-token --include '*.ts' --omit '*.test.ts' --prompt 'Output only code and do not explain. Write unit tests for this TypeScript module:' --extension '.test.ts'
+promptform --token-file ~/.openai-token --include '**/*.ts' --omit '**/*.test.ts' --prompt 'Output only code and do not explain. Write unit tests for this TypeScript module:' --extension '.test.ts'
 ```
 
 ## License
