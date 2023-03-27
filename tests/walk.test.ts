@@ -31,25 +31,25 @@ describe('walkFiles', () => {
   it('should return only files matching include pattern', () => {
     const result = walkFiles(testDir, ['**/*.txt'])
     expect(result).toContain('file1.txt')
-    expect(result).toContain('subdir/file3.txt')
+    expect(result).toContain(path.join('subdir', 'file3.txt'))
     expect(result).not.toContain('file2.js')
-    expect(result).not.toContain('subdir/file4.js')
+    expect(result).not.toContain(path.join('subdir', 'file4.js'))
   })
 
   it('should exclude files matching exclude pattern', () => {
     const result = walkFiles(testDir, ['*'], ['*.js'])
     expect(result).toContain('file1.txt')
-    expect(result).not.toContain('subdir/file3.txt')
+    expect(result).not.toContain(path.join('subdir', 'file3.txt'))
     expect(result).not.toContain('file2.js')
-    expect(result).not.toContain('subdir/file4.js')
+    expect(result).not.toContain(path.join('subdir', 'file4.js'))
   })
 
   it('should return files that match include pattern and do not match exclude pattern', () => {
-    const result = walkFiles(testDir, ['*.txt'], ['subdir/*'])
+    const result = walkFiles(testDir, ['*.txt'], [path.join('subdir', '*')])
     expect(result).toContain('file1.txt')
     expect(result).not.toContain('file2.js')
-    expect(result).not.toContain('subdir/file3.txt')
-    expect(result).not.toContain('subdir/file4.js')
+    expect(result).not.toContain(path.join('subdir', 'file3.txt'))
+    expect(result).not.toContain(path.join('subdir', 'file4.js'))
   })
 
   it('should return an empty array if no files match the criteria', () => {
