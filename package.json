@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/jasonstitt/promptform#readme",
   "dependencies": {
+    "@types/bluebird": "^3.5.38",
     "bluebird": "^3.7.2",
     "commander": "^10.0.0",
     "minimatch": "^7.4.3",
