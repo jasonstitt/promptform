@@ -21,6 +21,12 @@ program
       } else if (!opts.inPlace && !opts.extension) {
         opts.extension = '.promptform'
       }
+      if (opts.promptFile) {
+        if (opts.prompt) {
+          throw new UserError('Cannot use both --prompt and --prompt-file')
+        }
+        opts.prompt = await fs.readFile(opts.promptFile, 'utf-8')
+      }
       // Process files
       const files = walkFiles(basedir || '.', opts.include, opts.omit)
       console.error(`Found ${files.length} files to process`)
