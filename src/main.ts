@@ -1,4 +1,4 @@
-import fs from 'fs'
+import { promises as fs } from 'fs'
 import path from 'path'
 import bluebird from 'bluebird'
 import { mkdirp } from 'mkdirp'
@@ -21,14 +21,14 @@ program
       const openai = new OpenAIApi(configuration)
       await bluebird.map(files, async (file: string) => {
         const filePath = path.resolve(basedir, file)
-        const textInput = fs.readFileSync(filePath, 'utf-8')
+        const textInput = await fs.readFile(filePath, 'utf-8')
         const textOutput = await runCompletionWithBackoff(openai, `${opts.prompt}\n${textInput}`)
         const outputFilename = path.resolve(opts.outputDir || basedir, file) + '.out'
         if (opts.outputDir) {
           const outputDirPath = path.dirname(outputFilename)
           await mkdirp(outputDirPath)
         }
-        fs.writeFileSync(outputFilename, textOutput)
+        await fs.writeFile(outputFilename, textOutput)
         console.error(`${outputFilename}`)
       }, { concurrency: Number(opts.concurrency) })
     } catch (error: any) {
