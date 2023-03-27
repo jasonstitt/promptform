@@ -19,7 +19,7 @@ function parsePositiveFloat(value: string): number {
 }
 
 program
-  .argument('[basedir]', 'the directory to process (default: .)')
+  .argument('[basedir]', 'the directory to process (default: .)', '.')
   .requiredOption('-i, --include <globPattern...>', 'glob pattern for files to process')
   .option('-o, --omit <globPattern...>', 'glob pattern for files to exclude from processing')
   .option('-p, --prompt <prompt>', 'common prompt to prepend to each file')
