@@ -1,6 +1,6 @@
 {
   "name": "promptform",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Run files through the OpenAI completions API in bulk",
   "main": "src/index.js",
   "bin": {
