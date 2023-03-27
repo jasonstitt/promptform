@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-const { Configuration, OpenAIApi } = require('openai')
+import { Configuration, OpenAIApi } from 'openai'
 
 export async function checkTokenActive (token: string): Promise<boolean> {
   const configuration = new Configuration({ apiKey: token })

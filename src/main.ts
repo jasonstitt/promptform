@@ -6,6 +6,7 @@ program
   .action((basedir: string, opts: any) => {
     try {
       const files = walkFiles(basedir || '.', opts.include, opts.omit)
+      console.error(`Found ${files.length} files to process`)
       const token = getOpenAiToken(opts.tokenFile)
       if (token === null) {
         process.exit(1)
